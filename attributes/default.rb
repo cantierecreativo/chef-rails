@@ -5,6 +5,10 @@ default["apps_user"] = "root"
 default["apps"] = {
   app1: {
     staging: {
+      domain: "staging.example.com"
+    },
+    production: {
+      domain: "www.example.com"
     }
   }
 }
