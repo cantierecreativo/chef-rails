@@ -8,3 +8,4 @@
 #
 
 include_recipe "rails-machine::swap"
+include_recipe "rails-machine::nginx"
