@@ -9,3 +9,4 @@ version          '0.1.2'
 depends "swap"
 depends "nginx"
 depends "postgresql"
+depends "capistrano-rails" #https://github.com/joeyates/chef-capistrano-rails

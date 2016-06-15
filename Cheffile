@@ -1,3 +1,4 @@
 site "https://supermarket.getchef.com/api/v1"
 
 cookbook "nginx", "2.7.6"
+cookbook "capistrano-rails", git: "https://github.com/joeyates/chef-capistrano-rails"
