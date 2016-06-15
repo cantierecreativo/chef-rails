@@ -1,4 +1,4 @@
-# rails-machine Cookbook
+# rails Cookbook
 
 TODO: Enter the cookbook description here.
 
@@ -20,14 +20,14 @@ e.g.
 
 ### Cookbooks
 
-- `toaster` - rails-machine needs toaster to brown your bagel.
+- `toaster` - rails needs toaster to brown your bagel.
 
 ## Attributes
 
 TODO: List your cookbook attributes here.
 
 e.g.
-### rails-machine::default
+### rails::default
 
 <table>
   <tr>
@@ -37,7 +37,7 @@ e.g.
     <th>Default</th>
   </tr>
   <tr>
-    <td><tt>['rails-machine']['bacon']</tt></td>
+    <td><tt>['rails']['bacon']</tt></td>
     <td>Boolean</td>
     <td>whether to include bacon</td>
     <td><tt>true</tt></td>
@@ -46,18 +46,18 @@ e.g.
 
 ## Usage
 
-### rails-machine::default
+### rails::default
 
 TODO: Write usage instructions for each cookbook.
 
 e.g.
-Just include `rails-machine` in your node's `run_list`:
+Just include `rails` in your node's `run_list`:
 
 ```json
 {
   "name":"my_node",
   "run_list": [
-    "recipe[rails-machine]"
+    "recipe[rails]"
   ]
 }
 ```
@@ -77,4 +77,3 @@ e.g.
 ## License and Authors
 
 Authors: TODO: List authors
-

@@ -1,9 +1,11 @@
-# rails-machine CHANGELOG
+# rails CHANGELOG
 
-This file is used to list changes made in each version of the rails-machine cookbook.
+This file is used to list changes made in each version of the rails cookbook.
 
-## 0.1.0
-- [your_name] - Initial release of rails-machine
+
+
+## 0.1.3
+- [Added app resource] - Initial release of rails
 
 - - -
 Check the [Markdown Syntax Guide](http://daringfireball.net/projects/markdown/syntax) for help with Markdown.
