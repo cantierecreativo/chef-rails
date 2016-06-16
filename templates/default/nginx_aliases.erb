@@ -1,0 +1,6 @@
+<% if @aliases.any? %>
+server {
+    server_name <%= @aliases.join(" ") %>;
+    rewrite  ^/(.*)$  http://<%= @domain %>/$1 permanent;
+}
+<% end %>

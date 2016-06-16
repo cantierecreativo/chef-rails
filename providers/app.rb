@@ -34,11 +34,29 @@ action :create do
     action :create
   end
 
+  rails_letsencrypt "#{app_name}_letsencrypt" do
+    domain new_resource.domain
+  end
+
   rails_nginx app_name do
     domain new_resource.domain
     path current_path
     user new_resource.user
+    cert_path certificate_path
+    cert_key_path certificate_key_path
   end
+end
+
+def certificate_base_path
+  ::File.join("", "etc", "letsencrypt", "live", new_resource.domain)
+end
+
+def certificate_path
+  ::File.join(certificate_base_path, "fullchain.pem")
+end
+
+def certificate_key_path
+  ::File.join(certificate_base_path, "privkey.pem")
 end
 
 def current_path

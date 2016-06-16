@@ -1,0 +1,7 @@
+server {
+    listen 80;
+    server_name <%= @domain %>;
+    location / {
+        return 301 https://<%= @domain %>:443$request_uri;
+    }
+}

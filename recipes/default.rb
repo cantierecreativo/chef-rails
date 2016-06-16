@@ -7,5 +7,6 @@
 # All rights reserved - Do Not Redistribute
 #
 
+throw node
 include_recipe "rails::server"
 include_recipe "rails::environment"
