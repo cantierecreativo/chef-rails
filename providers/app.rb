@@ -44,6 +44,7 @@ action :create do
     user new_resource.user
     cert_path certificate_path
     cert_key_path certificate_key_path
+    protocol_policy :http_to_https
   end
 end
 

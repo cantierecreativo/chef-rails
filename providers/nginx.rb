@@ -7,30 +7,56 @@ action :create do
     variables(upstream: upstream_name, path: new_resource.path)
   end
 
-  template http_path do
-    source "nginx_http.erb"
-    owner new_resource.user
-    group new_resource.user
-    mode 0644
-    variables(
-      upstream: upstream_name,
-      path: new_resource.path,
-      domain: new_resource.domain,
-    )
+  if new_resource.protocol_policy == :http_to_https
+    template http_path do
+      source "nginx_http_to_https.erb"
+      owner new_resource.user
+      group new_resource.user
+      mode 0644
+      variables(
+        domain: new_resource.domain
+      )
+    end
+  elsif [:only_http, :both].include? new_resource.protocol_policy
+    template http_path do
+      source "nginx_http.erb"
+      owner new_resource.user
+      group new_resource.user
+      mode 0644
+      variables(
+        upstream: upstream_name,
+        path: new_resource.path,
+        domain: new_resource.domain,
+      )
+    end
   end
 
-  template https_path do
-    source "nginx_https.erb"
-    owner new_resource.user
-    group new_resource.user
-    mode 0644
-    variables(
-      upstream: upstream_name,
-      path: new_resource.path,
-      domain: new_resource.domain,
-      cert_path: new_resource.cert_path,
-      cert_key_path: new_resource.cert_key_path
-    )
+
+  if [:only_https, :both, :http_to_https].include? new_resource.protocol_policy
+    template https_path do
+      source "nginx_https.erb"
+      owner new_resource.user
+      group new_resource.user
+      mode 0644
+      variables(
+        upstream: upstream_name,
+        path: new_resource.path,
+        domain: new_resource.domain,
+        cert_path: new_resource.cert_path,
+        cert_key_path: new_resource.cert_key_path
+      )
+    end
+  end
+
+  case new_resource.protocol_policy
+  when :only_http
+    file https_path do
+      action :delete
+    end
+  when :only_https
+    file http_path do
+      action :delete
+    end
   end
 
   if new_resource.aliases.any?

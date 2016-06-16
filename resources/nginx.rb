@@ -8,4 +8,4 @@ attribute :path, kind_of: String
 attribute :aliases, kind_of: String, default: []
 attribute :cert_path, kind_of: String
 attribute :cert_key_path, kind_of: String
-attribute :ssl_policy, kind_of: [:only_http, :only_https, :both, :redirect_http_to_https], default: :http_only
+attribute :protocol_policy, kind_of: Symbol, default: :only_http, equal_to: [:only_http, :only_https, :http_to_https, :both]
