@@ -36,6 +36,8 @@ action :create do
 
   certbot_certificate "#{app_name}_letsencrypt" do
     domain new_resource.domain
+    email new_resource.admin_email
+    test true
     action :create
   end
 

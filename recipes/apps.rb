@@ -7,6 +7,7 @@ node["apps"].each do |app, environments|
       dbpassword "antanigogo"
       secret "AGreatSecret"
       domain config["domain"]
+      admin_email config["admin_email"]
     end
   end
 end
