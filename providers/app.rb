@@ -34,16 +34,17 @@ action :create do
     action :create
   end
 
-  rails_letsencrypt "#{app_name}_letsencrypt" do
+  certbot_certificate "#{app_name}_letsencrypt" do
     domain new_resource.domain
+    action :create
   end
 
   rails_nginx app_name do
     domain new_resource.domain
-    path current_path
+    path shared_path
     user new_resource.user
-    cert_path certificate_path
-    cert_key_path certificate_key_path
+    cert_path letsencrypt_fullchain_path(new_resource.domain)
+    cert_key_path letsencrypt_privatekey_path(new_resource.domain)
     protocol_policy :http_to_https
   end
 end
@@ -60,8 +61,8 @@ def certificate_key_path
   ::File.join(certificate_base_path, "privkey.pem")
 end
 
-def current_path
-  ::File.join(app_path, "current")
+def shared_path
+  ::File.join(app_path, "shared")
 end
 
 def app_name

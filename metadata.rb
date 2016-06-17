@@ -4,9 +4,10 @@ maintainer_email 'd.librera@cantierecreativo.net'
 license          'All rights reserved'
 description      'Installs/Configures rails'
 long_description IO.read(File.join(File.dirname(__FILE__), 'README.md'))
-version          '0.1.2'
+version          '0.1.3'
 
 depends "swap"
+depends "certbot"
 depends "nginx"
 depends "postgresql"
-depends "capistrano-rails" #https://github.com/joeyates/chef-capistrano-rails
+depends "capistrano-rails"
