@@ -16,6 +16,7 @@ action :create do
       variables(
         domain: new_resource.domain
       )
+      notifies :reload, 'service[nginx]', :immediately
     end
   elsif [:only_http, :both].include? new_resource.protocol_policy
     template http_path do
@@ -28,9 +29,17 @@ action :create do
         path: new_resource.path,
         domain: new_resource.domain,
       )
+      notifies :reload, 'service[nginx]', :immediately
     end
   end
 
+  certbot_certificate "#{new_resource.domain}_certbot" do
+    domain new_resource.domain
+    email new_resource.admin_email
+    test new_resource.test_ssl
+    renew_policy new_resource.test_ssl ? :renew_by_default : :keep_until_expiring
+    action :create
+  end
 
   if [:only_https, :both, :http_to_https].include? new_resource.protocol_policy
     template https_path do
@@ -45,6 +54,7 @@ action :create do
         cert_path: new_resource.cert_path,
         cert_key_path: new_resource.cert_key_path
       )
+      notifies :reload, 'service[nginx]', :immediately
     end
   end
 

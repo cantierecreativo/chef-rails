@@ -34,25 +34,20 @@ action :create do
     action :create
   end
 
-  certbot_certificate "#{app_name}_letsencrypt" do
-    domain new_resource.domain
-    email new_resource.admin_email
-    test true
-    action :create
-  end
-
   rails_nginx app_name do
     domain new_resource.domain
+    test_ssl new_resource.test_env
     path shared_path
     user new_resource.user
-    cert_path letsencrypt_fullchain_path(new_resource.domain)
-    cert_key_path letsencrypt_privatekey_path(new_resource.domain)
+    cert_path certbot_fullchain_path_for(new_resource.domain)
+    cert_key_path certbot_privatekey_path_for(new_resource.domain)
     protocol_policy :http_to_https
+    admin_email new_resource.admin_email
   end
 end
 
 def certificate_base_path
-  ::File.join("", "etc", "letsencrypt", "live", new_resource.domain)
+  certbot_certificate_dir new_resource.domain
 end
 
 def certificate_path

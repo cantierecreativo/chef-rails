@@ -18,6 +18,16 @@ server {
     # http://bogomips.org/unicorn.git/tree/examples/nginx.conf?id=v3.3.1#n127
     try_files $uri $uri/index.html $uri.html @<%= @upstream %>;
 
+    location ^~ /.well-known {
+        alias <%= certbot_well_known_path_for(@domain) %>;
+    }
+
+    location ^~ /assets/ {
+        gzip_static on;
+        expires max;
+        add_header Cache-Control public;
+    }
+
     location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto http;
@@ -29,12 +39,6 @@ server {
             break;
         }
 
-    }
-
-    location ^~ /assets/ {
-        gzip_static on;
-        expires max;
-        add_header Cache-Control public;
     }
 
     # Rails error pages

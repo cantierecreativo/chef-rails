@@ -1,7 +1,0 @@
-server {
-    server_name <%= @domain %>;
-
-    location ^~ /.well-known {
-        alias <%= @webroot_dir%>/.well-known/;
-    }
-}

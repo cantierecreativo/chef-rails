@@ -1,6 +1,11 @@
 server {
     listen 80;
     server_name <%= @domain %>;
+
+    location ^~ /.well-known {
+        alias <%= certbot_well_known_path_for(@domain) %>;
+    }
+
     location / {
         return 301 https://<%= @domain %>:443$request_uri;
     }

@@ -13,6 +13,7 @@ node["rails"]["apps"].each do |app, environments|
       secret "AGreatSecret"
       domain config["domain"]
       admin_email config["admin_email"]
+      test_env config["test_env"]
     end
   end
 end
