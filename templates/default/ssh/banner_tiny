@@ -1,0 +1,1 @@
+:::      <%= node["rails"]["machine_name"] %>      :::

@@ -9,7 +9,6 @@ node["rails"]["apps"].each do |app, environments|
       environment environment
       root_dir node["rails"]["apps_root"]
       user node["rails"]["apps_user"]
-      dbpassword "antanigogo"
       secret "AGreatSecret"
       domain config["domain"]
       admin_email config["admin_email"]

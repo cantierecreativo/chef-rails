@@ -10,19 +10,11 @@ server {
     ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
     ssl_prefer_server_ciphers on;
 
-    access_log  /var/log/nginx/<%= @server_name %>.access.log;
-    error_log   /var/log/nginx/<%= @server_name %>.error.log;
+    access_log  /var/log/nginx/<%= @domain %>.access.log;
+    error_log   /var/log/nginx/<%= @domain %>.error.log;
 
-    # path for static files
     root <%= @path %>/public;
 
-    # Prefer to serve static files directly from nginx to avoid unnecessary
-    # data copies from the application server.
-    #
-    # try_files directive appeared in in nginx 0.7.27 and has stabilized
-    # over time.  Older versions of nginx (e.g. 0.6.x) requires
-    # "if (!-f $request_filename)" which was less efficient:
-    # http://bogomips.org/unicorn.git/tree/examples/nginx.conf?id=v3.3.1#n127
     try_files $uri $uri/index.html $uri.html @<%= @upstream %>;
 
     location ^~ /.well-known {
@@ -47,7 +39,6 @@ server {
         }
     }
 
-    # Rails error pages
     error_page 500 502 503 504 /500.html;
     location = /500.html {
       root <%= @path %>/public;

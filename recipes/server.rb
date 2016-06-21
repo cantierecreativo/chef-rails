@@ -4,6 +4,7 @@
   end
 end
 
+include_recipe "rails::ssh"
 include_recipe "rails::swap"
 
 include_recipe "certbot::default"
@@ -13,4 +14,6 @@ include_recipe "rails::postgresql"
 
 include_recipe "ruby_rbenv::system_install"
 include_recipe "ruby_build::default"
-include_recipe "rails::ruby"
+#include_recipe "rails::ruby"
+include_recipe "users::default"
+include_recipe "nodejs::default"

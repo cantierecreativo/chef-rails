@@ -5,3 +5,5 @@ cookbook "capistrano-rails", git: "https://github.com/joeyates/chef-capistrano-r
 cookbook "certbot", git: "https://github.com/davidlibrera/chef-certbot"
 cookbook "rails_nginx", git: "https://github.com/davidlibrera/chef-rails_nginx"
 cookbook "ruby_rbenv"
+cookbook 'users',         git: 'git@bitbucket.org:joeyates/users-cookbook.git'
+cookbook 'nodejs'

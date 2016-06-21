@@ -1,36 +1,33 @@
 action :create do
   template upstream_path do
-    source "nginx_upstream.erb"
+    source "nginx/nginx_upstream.erb"
     owner new_resource.user
     group new_resource.user
     mode 0644
+    cookbook "rails"
     variables(upstream: upstream_name, path: new_resource.path)
   end
 
   if new_resource.protocol_policy == :http_to_https
-    template http_path do
-      source "nginx_http_to_https.erb"
-      owner new_resource.user
-      group new_resource.user
-      mode 0644
-      variables(
-        domain: new_resource.domain
-      )
-      notifies :reload, 'service[nginx]', :immediately
-    end
+    template_source = "nginx/nginx_http_to_https.erb"
   elsif [:only_http, :both].include? new_resource.protocol_policy
-    template http_path do
-      source "nginx_http.erb"
-      owner new_resource.user
-      group new_resource.user
-      mode 0644
-      variables(
-        upstream: upstream_name,
-        path: new_resource.path,
-        domain: new_resource.domain,
-      )
-      notifies :reload, 'service[nginx]', :immediately
-    end
+    template_source = "nginx_http.erb"
+  else
+    template_source = "http_404.erb"
+  end
+
+  template http_path do
+    source template_source
+    owner new_resource.user
+    group new_resource.user
+    mode 0644
+    variables(
+      domain: new_resource.domain,
+      upstream: upstream_name,
+      path: new_resource.path
+    )
+    cookbook "rails"
+    notifies :reload, 'service[nginx]', :immediately
   end
 
   certbot_certificate "#{new_resource.domain}_certbot" do
@@ -43,7 +40,7 @@ action :create do
 
   if [:only_https, :both, :http_to_https].include? new_resource.protocol_policy
     template https_path do
-      source "nginx_https.erb"
+      source "nginx/nginx_https.erb"
       owner new_resource.user
       group new_resource.user
       mode 0644
@@ -54,6 +51,7 @@ action :create do
         cert_path: new_resource.cert_path,
         cert_key_path: new_resource.cert_key_path
       )
+      cookbook "rails"
       notifies :reload, 'service[nginx]', :immediately
     end
   end
@@ -78,24 +76,6 @@ action :create do
       variables(aliases: new_resource.aliases, domain: new_resource.domain)
     end
   end
-
-  directory public_path do
-    owner new_resource.user
-    group new_resource.user
-    mode 0755
-    recursive true
-  end
-
-  file ::File.join(public_path, "index.html") do
-    owner new_resource.user
-    group new_resource.user
-    mode 0644
-    content "Ciao bello\n"
-  end
-end
-
-def public_path
-  ::File.join(new_resource.path, "public")
 end
 
 def aliases_path

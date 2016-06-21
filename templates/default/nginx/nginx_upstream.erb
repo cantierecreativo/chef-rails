@@ -1,0 +1,3 @@
+upstream <%= @upstream %> {
+    server unix:<%= @path %>/tmp/sockets/server.sock fail_timeout=0;
+}
