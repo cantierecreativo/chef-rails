@@ -26,7 +26,7 @@ node["rails"]["apps"].each do |app, environments|
       action :nothing
     end
 
-    template "/etc/systemd/system/#{app}_#{environment}.service" do
+    template "/lib/systemd/system/#{app}_#{environment}.service" do
       source "puma.service"
       owner "root"
       group "root"
