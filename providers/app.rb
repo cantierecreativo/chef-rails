@@ -1,5 +1,5 @@
 action :create do
-  directory root_path do
+  directory app_path do
     owner new_resource.user
     group new_resource.user
     mode 0755
@@ -67,7 +67,7 @@ def certificate_key_path
 end
 
 def current_path
-  ::File.join(app_path, "current")
+  rails_capistrano_current_path(new_resource.name, new_resource.environment)
 end
 
 def app_name
@@ -75,9 +75,5 @@ def app_name
 end
 
 def app_path
-  ::File.join(root_path, new_resource.environment)
-end
-
-def root_path
-  ::File.join(new_resource.root_dir, new_resource.name)
+  rails_capistrano_root_path(new_resource.name, new_resource.environment)
 end

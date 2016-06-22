@@ -1,0 +1,18 @@
+[Unit]
+Description=Run puma instance for <%= @app_name %>
+
+[Service]
+Type=forking
+PIDFile=<%= @app_path %>/tmp/pids/server.pid
+WorkingDirectory=<%= @app_path %>
+User=<%= @app_user %>
+Group=<%= @app_user %>
+Restart=on-failure
+Environment="RBENV_VERSION=<%= @ruby_version %>"
+Environment="RAILS_ENV=<%= @rails_env %>"
+Environment="RACK_ENV=<%= @rails_env %>"
+ExecStart=/usr/local/rbenv/shims/bundle exec <%= @app_path %>/bin/puma -C <%= @app_path %>/config/puma.rb --daemon
+ExecStop=/usr/local/rbenv/shims/bundle exec <%= @app_path %>/bin/pumactl -S <%= @app_path %>/tmp/pids/puma.state stop
+
+[Install]
+Alias=lofficiel_web_staging.service
