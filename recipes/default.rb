@@ -9,3 +9,4 @@
 
 include_recipe "rails::server"
 include_recipe "rails::environment"
+include_recipe "rails::extra_packages"
