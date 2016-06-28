@@ -13,6 +13,7 @@ node["rails"]["apps"].each do |app, environments|
       domain config["domain"]
       admin_email config["admin_email"]
       test_env config["test_env"]
+      directories config["directories"]
     end
 
     execute "enable_#{app}_#{environment}" do

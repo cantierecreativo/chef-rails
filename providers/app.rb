@@ -25,7 +25,7 @@ action :create do
     user new_resource.user
     group new_resource.user
     environment new_resource.environment
-    extra_shared ["public", "log"]
+    extra_shared ["public", "log"] + new_resource.directories
     database app_name
     username new_resource.name
     password secret_config["dbpassword"]
@@ -39,8 +39,6 @@ action :create do
     test_ssl new_resource.test_env
     path current_path
     user new_resource.user
-    cert_path certbot_fullchain_path_for(new_resource.domain)
-    cert_key_path certbot_privatekey_path_for(new_resource.domain)
     protocol_policy :http_to_https
     admin_email new_resource.admin_email
   end
@@ -52,18 +50,6 @@ end
 
 def secret_config_env
   secret_config[new_resource.environment]
-end
-
-def certificate_base_path
-  certbot_certificate_dir new_resource.domain
-end
-
-def certificate_path
-  ::File.join(certificate_base_path, "fullchain.pem")
-end
-
-def certificate_key_path
-  ::File.join(certificate_base_path, "privkey.pem")
 end
 
 def current_path

@@ -9,3 +9,4 @@ attribute :user, kind_of: String
 attribute :secret, kind_of: String
 attribute :domain, kind_of: String
 attribute :test_env, kind_of: [TrueClass, FalseClass], default: false
+attribute :directories, kind_of: Array, default: []

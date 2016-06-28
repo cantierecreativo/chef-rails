@@ -8,6 +8,10 @@ action :create do
     variables(upstream: upstream_name, path: new_resource.path)
   end
 
+  certbot_self_signed_certificate "#{new_resource.domain}" do
+    domain new_resource.domain
+  end
+
   if new_resource.protocol_policy == :http_to_https
     template_source = "nginx/nginx_http_to_https.erb"
   elsif [:only_http, :both].include? new_resource.protocol_policy
@@ -30,13 +34,6 @@ action :create do
     notifies :reload, 'service[nginx]', :immediately
   end
 
-  certbot_certificate "#{new_resource.domain}_certbot" do
-    domain new_resource.domain
-    email new_resource.admin_email
-    test new_resource.test_ssl
-    renew_policy new_resource.test_ssl ? :renew_by_default : :keep_until_expiring
-    action :create
-  end
 
   if [:only_https, :both, :http_to_https].include? new_resource.protocol_policy
     template https_path do
@@ -48,12 +45,21 @@ action :create do
         upstream: upstream_name,
         path: new_resource.path,
         domain: new_resource.domain,
-        cert_path: new_resource.cert_path,
-        cert_key_path: new_resource.cert_key_path
+        cert_path: certbot_current_cert_path_for(new_resource.domain),
+        cert_key_path: certbot_current_key_path_for(new_resource.domain)
       )
       cookbook "rails"
       notifies :reload, 'service[nginx]', :immediately
     end
+  end
+
+  certbot_certificate "#{new_resource.domain}_certbot" do
+    domain new_resource.domain
+    email new_resource.admin_email
+    test new_resource.test_ssl
+    renew_policy new_resource.test_ssl ? :renew_by_default : :keep_until_expiring
+    install_cron true
+    action :create
   end
 
   case new_resource.protocol_policy
