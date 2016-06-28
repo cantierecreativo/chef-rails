@@ -30,6 +30,7 @@ action :create do
     username new_resource.name
     password secret_config["dbpassword"]
     secret_key_base secret_config_env["secret_key_base"]
+    other_secrets secret_config_env["other_secrets"]
     adapter "postgresql"
     action :create
   end
