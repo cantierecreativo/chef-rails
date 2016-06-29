@@ -148,7 +148,6 @@ Paste the following content into the editor setting variables with your needs
 you will find "other_secrets" inside the file
 
 `config/secrets.yml`
->>>>>>> updated readme and some fixes
 
 ### rails::default
 
