@@ -106,6 +106,49 @@ Before running the cookbook, if you want to generate an ssl valid certificate wi
 `"test_env": true`
 
 into "apps" settings in order to use a self signed ssl certificate
+=======
+
+`"test_env": true`
+
+into "apps" settings in order to use a self signed ssl certificate.
+
+Then, you need to create an encrypted data bag with application properties.
+
+`bundle exec knife solo data bag create apps rails_app`
+
+to create the empty.
+
+Paste the following content into the editor setting variables with your needs
+
+```
+{
+  "id": "rails_app",
+  "config": {
+    "dbpassword": "a_user_db_password",
+    "staging": {
+      "secret_key_base": "a_secret_value",
+      "other_secrets": {
+        "a_key": {
+          "a_subkey": "a value"
+        }
+      }
+    },
+    "production": {
+      "secret_key_base": "a_secret_value",
+      "other_secrets": {
+        "another_key": {
+          "another_subkey": "another value"
+        }
+      }
+    }
+  }
+}
+```
+
+you will find "other_secrets" inside the file
+
+`config/secrets.yml`
+>>>>>>> updated readme and some fixes
 
 ### rails::default
 
@@ -351,6 +394,7 @@ This resource install all the stack (nginx/postgresql/rails directory) for a sin
 * Support for backup data (database and directories)
 * Multi domain name for a same application (for example a localized application through domain name)
 * Possibility to pass parameters to extra_packages
+* Use supervisord for boot daemon
 
 ## Contributing
 
@@ -363,4 +407,7 @@ This resource install all the stack (nginx/postgresql/rails directory) for a sin
 
 ## License and Authors
 
-Authors: TODO: List authors
+Authors:
+
+* David Librera
+* Joe Yates
