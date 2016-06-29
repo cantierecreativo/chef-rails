@@ -25,7 +25,7 @@ action :create do
     user new_resource.user
     group new_resource.user
     environment new_resource.environment
-    extra_shared ["public", "log"] + new_resource.directories
+    extra_shared ["public", "log", "config"] + new_resource.directories
     database app_name
     username new_resource.name
     password secret_config["dbpassword"]
@@ -37,10 +37,11 @@ action :create do
 
   rails_nginx app_name do
     domain new_resource.domain
+    aliases new_resource.aliases
     test_ssl new_resource.test_env
     path current_path
     user new_resource.user
-    protocol_policy :http_to_https
+    protocol_policy new_resource.protocol_policy
     admin_email new_resource.admin_email
   end
 end

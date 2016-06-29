@@ -7,9 +7,9 @@ node["rails"]["apps"].each do |app, environments|
 
     rails_app app do
       environment environment
-      root_dir node["rails"]["apps_root"]
       user node["rails"]["apps_user"]
       domain config["domain"]
+      aliases config["aliases"]
       admin_email config["admin_email"]
       test_env config["test_env"]
       directories config["directories"]

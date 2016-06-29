@@ -1,4 +1,4 @@
-default["rails"]["machine_name"] = "L'officiel web"
+default["rails"]["machine_name"] = "Rails machine"
 default["rails"]["ssh"]["port"] = 22
 default["rails"]["swap"]["size"] = 1024
 default["rails"]["swap"]["filepath"] = "/mnt/swapfile"
