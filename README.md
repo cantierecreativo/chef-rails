@@ -101,7 +101,7 @@ cookbook "rails"
 
 ## Usage
 
-Before running the cookbook, if you want to generate an ssl valid certificate with letsencrypt, ensure that your machine is reachable. If you can't do this for now, set
+Before running the cookbook, if you want to generate an ssl valid certificate with letsencrypt, ensure that your machine is reachable. If you can't do this for now, set
 
 `"test_env": true`
 
