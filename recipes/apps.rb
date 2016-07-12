@@ -9,10 +9,11 @@ node["rails"]["apps"].each do |app, environments|
       environment environment
       user node["rails"]["apps_user"]
       domain config["domain"]
-      aliases config["aliases"]
+      aliases config["aliases"] || []
       admin_email config["admin_email"]
       test_env config["test_env"]
       directories config["directories"]
+      postgresql_extensions config["postgresql_modules"]
     end
 
     execute "enable_#{app}_#{environment}" do
