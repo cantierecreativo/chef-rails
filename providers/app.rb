@@ -21,6 +21,12 @@ action :create do
     action :create
   end
 
+  new_resource.postgresql_extensions.each do |ext|
+    postgresql_extension ext do
+      database app_name
+    end
+  end
+
   capistrano_rails_application app_path do
     user new_resource.user
     group new_resource.user
