@@ -11,3 +11,4 @@ attribute :test_env, kind_of: [TrueClass, FalseClass], default: false
 attribute :directories, kind_of: Array, default: []
 attribute :protocol_policy, kind_of: Symbol, equal_to: [:http_to_https, :only_https, :only_http, :both, :https_to_http], default: :http_to_https
 attribute :postgresql_extensions, kind_of: Array, default: []
+attribute :postgresql_superuser, kind_of: [TrueClass, FalseClass], default: false

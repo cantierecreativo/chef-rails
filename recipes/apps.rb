@@ -13,6 +13,7 @@ node["rails"]["apps"].each do |app, environments|
       admin_email config["admin_email"]
       test_env config["test_env"]
       directories config["directories"]
+      postgresql_superuser config["postgresql_superuser"]
       postgresql_extensions config["postgresql_modules"]
     end
 
