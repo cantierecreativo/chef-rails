@@ -42,8 +42,7 @@ action :create do
   end
 
   rails_nginx app_name do
-    domain new_resource.domain
-    aliases new_resource.aliases
+    domains new_resource.domains
     test_ssl new_resource.test_env
     path current_path
     user new_resource.user

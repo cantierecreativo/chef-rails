@@ -1,6 +1,30 @@
-<% if @aliases.any? %>
+<% @aliases.each do |alias_domain_info| %>
 server {
-    server_name <%= @aliases.join(" ") %>;
+    listen 80;
+    server_name <%= alias_domain_info[:domain] %>;
+    location ^~ /.well-known {
+        alias <%= certbot_well_known_path_for(alias_domain_info[:domain]) %>;
+    }
     rewrite  ^/(.*)$  http://<%= @domain %>/$1 permanent;
 }
+<% end %>
+
+<% if @use_https %>
+  <% @aliases.each do |alias_domain_info| %>
+server {
+    listen 443;
+    server_name <%= alias_domain_info[:domain] %>;
+    location ^~ /.well-known {
+        alias <%= certbot_well_known_path_for(alias_domain_info[:domain]) %>;
+    }
+    ssl on;
+    ssl_certificate <%= alias_domain_info[:cert_path] %>;
+    ssl_certificate_key <%= alias_domain_info[:cert_key_path] %>;
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';
+    ssl_prefer_server_ciphers on;
+
+    rewrite  ^/(.*)$  https://<%= @domain %>/$1 permanent;
+}
+  <% end %>
 <% end %>
