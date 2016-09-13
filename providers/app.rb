@@ -7,6 +7,7 @@ action :create do
     recursive true
   end
 
+
   postgresql_user new_resource.name do
     superuser new_resource.postgresql_superuser
     createdb false
@@ -48,6 +49,7 @@ action :create do
     user new_resource.user
     protocol_policy new_resource.protocol_policy
     admin_email new_resource.admin_email
+    http_passwd new_resource.http_login ? secret_config["http_passwd"] : false
   end
 end
 

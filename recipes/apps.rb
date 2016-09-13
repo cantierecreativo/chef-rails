@@ -14,6 +14,7 @@ node["rails"]["apps"].each do |app, environments|
       directories config["directories"]
       postgresql_superuser config["postgresql_superuser"]
       postgresql_extensions config["postgresql_modules"]
+      http_login config["http_login"]
     end
 
     # execute "enable_#{app}_#{environment}" do

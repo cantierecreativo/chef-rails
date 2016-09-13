@@ -9,7 +9,20 @@ action :create do
   end
 
 
+
   new_resource.domains.each do |main_domain, aliases|
+    if new_resource.http_passwd
+      http_login_file = http_auth_filepath(main_domain)
+      file http_login_file do
+        owner new_resource.user
+        group new_resource.user
+        mode 0644
+        content new_resource.http_passwd
+      end
+    else
+      http_login_file = nil
+    end
+
     certbot_self_signed_certificate "#{main_domain}" do
       domain main_domain
     end
@@ -32,7 +45,8 @@ action :create do
       variables(
         domain: main_domain,
         upstream: upstream_name,
-        path: new_resource.path
+        path: new_resource.path,
+        http_login_file: http_login_file
       )
       cookbook "rails"
       notifies :reload, 'service[nginx]', :immediately
@@ -50,7 +64,8 @@ action :create do
           path: new_resource.path,
           domain: main_domain,
           cert_path: certbot_current_cert_path_for(main_domain),
-          cert_key_path: certbot_current_key_path_for(main_domain)
+          cert_key_path: certbot_current_key_path_for(main_domain),
+          http_login_file: http_login_file
         )
         cookbook "rails"
         notifies :reload, 'service[nginx]', :immediately
@@ -103,6 +118,10 @@ action :create do
       end
     end
   end
+end
+
+def http_auth_filepath(domain)
+  "/etc/nginx/#{domain}.passwd"
 end
 
 def aliases_path(domain)

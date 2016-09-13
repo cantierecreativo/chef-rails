@@ -15,3 +15,4 @@ attribute :protocol_policy,
             :https_to_http, :http_to_https,
             :both
           ]
+attribute :http_passwd, kind_of: String
