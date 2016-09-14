@@ -41,7 +41,7 @@ server {
 
     <% unless @http_login_file.nil? %>
        auth_basic "Restricted";
-       auth_basic_user_file /etc/nginx/<%= @http_login_file %>;
+       auth_basic_user_file <%= @http_login_file %>;
     <% end %>
 
     error_page 500 502 503 504 /500.html;
