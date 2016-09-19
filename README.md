@@ -33,7 +33,6 @@ Add this to your **Cheffile** in order to install correct versions of cookbooks
 ```
 cookbook "postgresql",       git: "https://github.com/hbda/chef-postgresql", ref: "rmoriz/pg9.5"
 cookbook "capistrano-rails", git: "https://github.com/joeyates/chef-capistrano-rails"
-cookbook "nginx",            "2.7.6"
 cookbook "users",            git: 'https://bitbucket.org/joeyates/users-cookbook.git'
 cookbook "rails"
 ```

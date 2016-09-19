@@ -1,6 +1,6 @@
-include_recipe "nginx::default"
+package "nginx-core"
 
-cookbook_file '/etc/nginx/sites-available/default' do
+cookbook_file '/etc/nginx/sites-enabled/default' do
   source 'nginx_default.conf'
   owner "root"
   group "root"

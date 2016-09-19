@@ -8,7 +8,6 @@ version          '0.3.3'
 
 depends "swap"
 depends "certbot"
-depends "nginx",    ">= 2.7.6"
 depends "postgresql"
 depends "capistrano-rails"
 depends "ruby_rbenv"
