@@ -8,7 +8,10 @@ action :create do
     variables(upstream: upstream_name, path: new_resource.path)
   end
 
-
+  service "nginx" do
+    supports    [:start, :stop, :status, :restart]
+    action      :nothing
+  end
 
   new_resource.domains.each do |main_domain, aliases|
     if new_resource.http_passwd
