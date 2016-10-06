@@ -7,14 +7,13 @@ action :create do
     recursive true
   end
 
-
   postgresql_user new_resource.name do
     superuser new_resource.postgresql_superuser
     createdb false
     login true
     password secret_config["dbpassword"]
     replication false
-    action :update
+    action :create
   end
 
   postgresql_database app_name do
