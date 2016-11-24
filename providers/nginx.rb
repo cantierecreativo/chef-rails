@@ -14,7 +14,7 @@ action :create do
   end
 
   new_resource.domains.each do |main_domain, aliases|
-    if new_resource.http_passwd
+    if new_resource.http_passwd && new_resource.http_passwd != ""
       http_login_file = http_auth_filepath(main_domain)
       file http_login_file do
         owner new_resource.user

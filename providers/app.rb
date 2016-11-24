@@ -48,7 +48,7 @@ action :create do
     user new_resource.user
     protocol_policy new_resource.protocol_policy
     admin_email new_resource.admin_email
-    http_passwd new_resource.http_login ? secret_config["http_passwd"] : false
+    http_passwd new_resource.http_login ? secret_config["http_passwd"] : ""
   end
 end
 
